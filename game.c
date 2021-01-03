@@ -7,7 +7,8 @@ int initialturn(FILE *fp,player *players,int nofplayer,pile *stockpiles,pile *di
     // store the firstcard of each player
     card startcard[nofplayer],temp;
     int i,k=0;
-    printf("Determining the playing order...");
+    system("clear");
+    printf("Determining the playing order...\n");
     fprintf(fp,"Determining the playing order...");
     // everyone draw a card
     for (i=0;i<=nofplayer-1;i++){
@@ -45,17 +46,17 @@ void initialcard(FILE *fp,player *players,pile *stockpiles,int nofplayer,int nof
             addcard(stockpiles,discardpiles);
             shuffle(stockpiles,stockpiles->num);
         }
-        printf("player %d: ",i+1);
-        fprintf(fp,"player %d: ",i+1);
+        //printf("player %d: ",i+1);
+        //fprintf(fp,"player %d: ",i+1);
         for (j=0;j<=nofcard-1;j++){
             thecard=drawcard(stockpiles,&(players[i]));    
-            printcard(fp,thecard,1);
+            //printcard(fp,thecard,1);
             if (j==nofcard-1){
-                printf("\n");
-                fprintf(fp,"\n");
+                //printf("\n");
+                //fprintf(fp,"\n");
             } else {
-                printf(", ");
-                fprintf(fp,", ");
+                //printf(", ");
+                //fprintf(fp,", ");
             }
         }
         // if the stock pile exhausted during drawing, add card from the discard pile 
@@ -85,15 +86,15 @@ card oneturn(int *extraturn,FILE *fp,pile *stockpiles,player *theplayer,card las
         thecard=underattack(canplay,lastcard,fp,theplayer,mode,thecard,extraturn,stockpiles,discardpiles,test,qtest,jtest,&j);
     }
     // print the card in hand
-    if (mode!=1){
+    if (theplayer->isman==1){
         sortcard(theplayer->inhand,theplayer->numofcard);
-        printf("player %d cards: ",theplayer->rank+1);
-        fprintf(fp,"player %d cards: ",theplayer->rank+1);
-        if (theplayer->numofcard!=0){
-            for (i=0;i<theplayer->numofcard;i++){
+        //printf("player %d cards: ",theplayer->rank+1);
+        //fprintf(fp,"player %d cards: ",theplayer->rank+1);
+        if (theplayer->numofcard==0){
+            /*for (i=0;i<theplayer->numofcard;i++){
                 printcard(fp,theplayer->inhand[i],1);
             }
-        } else {
+        } else {*/
             printf("no card!");
         }
         printf("\n");
@@ -189,13 +190,13 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
     }
     thisplayer=(tmp->pl);
     // clear the screen, in different operating system
-    if (mod==1){
+    /*if (mod==1){
         #if defined(_WIN16) || defined(_WIN32) || defined(_WIN64)
         system("cls");
         #else
         system("clear");
         #endif
-    }
+    }*/
     printf("the first card is ");
     fprintf(fp,"\n\n\nthe first card is ");
     printcard(fp,thecard,1);
@@ -212,7 +213,7 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
             break;
         }
         // clear the screen and make ready for the next player
-        if (mode==1 && extraturn==0){
+        /*if (mode==1 && extraturn==0){
             // replace system("pause")
             int ch;
             while((ch=getchar())!=EOF && ch!='\n'){};
@@ -226,7 +227,7 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
             printcard(fp,thecard,2);
             printf("\n");
             fprintf(fp,"\n");
-        }
+        }*/
         if(test!=0){
             if (mode==1) printf("it is under attack now!, the number of cards is %d\n",test);
         }
@@ -269,7 +270,7 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
             }
         } else {
             // extraturn==1 means that this player can play one more, so the next player is still the same
-            printf("\n one more card available.\n");
+            if (thisplayer->isman==1) printf("\n one more card available.\n");
             thisplayer=tmp->pl;
         }
         // add card if stock pile exhausted
@@ -312,7 +313,7 @@ card notattack(card* canplay,card lastcard,FILE* fp, player* theplayer, int mode
     }
     // if no card can be play, need to draw
     if (*j==0) {
-        if (mode==1){
+        if (theplayer->isman==1){
             thecard=manplaycard(fp,theplayer,canplay,extraturn,*j,theplayer->numofcard,stockpiles,discardpiles,test);
             while (1){
                 printf("\nno choice, please enter 0:");
@@ -333,7 +334,7 @@ card notattack(card* canplay,card lastcard,FILE* fp, player* theplayer, int mode
         thecard=lastcard;
     } else {
         // have card(s) to play
-        if (mode!=1){
+        if (theplayer->isman==0){
             thecard=canplay[rand()%(*j)];
             playcard(discardpiles,theplayer,thecard);
             printf("player %d plays: ",theplayer->rank+1);
@@ -403,7 +404,7 @@ card underattack(card* canplay,card lastcard,FILE *fp,player* theplayer, int mod
     }
     // need to take the attack
     if (*j==0) {
-        if (mode==1){
+        if (theplayer->isman==1){
             thecard=manplaycard(fp,theplayer,canplay,extraturn,*j,theplayer->numofcard,stockpiles,discardpiles,test);
             while (1){
                 printf("\nno choice, please enter 0:");
@@ -432,7 +433,7 @@ card underattack(card* canplay,card lastcard,FILE *fp,player* theplayer, int mod
         thecard=lastcard;
     } else {
         // can react to the attack
-        if (mode!=1){
+        if (theplayer->isman==0){
             thecard=canplay[rand()%(*j)];
             playcard(discardpiles,theplayer,thecard);
             printf("player %d plays ",theplayer->rank+1);

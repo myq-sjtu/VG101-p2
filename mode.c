@@ -18,7 +18,9 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
         (players[i]).numofcard=0;  
         players[i].scores=0;
         players[i].rank=i;
+        players[i].isman=0;
     }
+    players[0].isman=1;
     //generate stockpiles
     generate(nofdeck,&stockpiles);
     //shuffle stockpiles

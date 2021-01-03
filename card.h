@@ -16,6 +16,7 @@ typedef struct _player{
     int numofcard;// number of cards
     int scores;
     int rank;// the player's rank (e.g player1's rank is 1)
+    int isman;
 }player;
 
 typedef struct _pile{
