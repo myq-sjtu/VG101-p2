@@ -1,7 +1,5 @@
-// this c file is all the basic function in the game
 #include"card.h"
 
-// generate the stock pile
 void generate(int n,pile *stockpiles){
     int i,j,k;
     stockpiles->num=0;
@@ -18,7 +16,6 @@ void generate(int n,pile *stockpiles){
     }
 }
 
-// shuffle the pile
 void shuffle(pile *stockpiles,int n){
     int i,j,num1,num2;
     card temp;
@@ -34,7 +31,6 @@ void shuffle(pile *stockpiles,int n){
     }
 }
 
-// one player draw one card
 card drawcard(pile *stockpiles,player *theplayer){
     card thecard;
     int i;
@@ -60,7 +56,6 @@ card drawcard(pile *stockpiles,player *theplayer){
     return thecard;
 }
 
-// player play card
 void playcard(pile *discardpile,player *theplayer,card thecard){
     int i,j;
     for (i=0;i<theplayer->numofcard;i++){
@@ -83,27 +78,22 @@ void playcard(pile *discardpile,player *theplayer,card thecard){
     discardpile->num++;
 }
 
-// print the card (int->string)
-void printcard(FILE *fp, card thecard,int mode){
+void printcard(/*FILE *fp*/card thecard,int mode){
     switch (thecard.suit){
         case 1:{
             if (mode!=0) printf("Spades ");
-            if (mode!=2) //fprintf(fp,"Spades ");
             break;
         }
         case 2:{
             if (mode!=0) printf("Hearts ");
-            if (mode!=2) //fprintf(fp,"Hearts ");
             break;
         }
         case 3:{
             if (mode!=0) printf("Diamonds ");
-            if (mode!=2)//fprintf(fp,"Diamonds ");
             break;
         }
         case 4:{
             if (mode!=0) printf("Clubs ");
-            if (mode!=2) //fprintf(fp,"Clubs ");
             break;
         }
         default:
@@ -114,52 +104,35 @@ void printcard(FILE *fp, card thecard,int mode){
     switch (thecard.number){
         case 10:{
             if (mode!=0) printf("Jack ");
-            if (mode!=2) //fprintf(fp,"Jack ");
             break;
         }
         case 11:{
             if (mode!=0) printf("Queen ");
-            if (mode!=2) //fprintf(fp,"Queen ");
             break;
         }
         case 12:{
             if (mode!=0) printf("King ");
-            if (mode!=2) //fprintf(fp,"King ");
             break;
         }
         case 13:{
             if (mode!=0) printf("Ace ");
-            if (mode!=2)//fprintf(fp,"Ace ");
             break;
         }
         default:{
             if (mode!=0) printf("%d ",thecard.number+1);
-            if (mode!=2) //fprintf(fp,"%d ",thecard.number+1);
             break;
         }
     }
 }
 
-// print the template
-void printlog(pile *stockpiles,int mode,FILE *fp,int round,int deck,int nofplayers){
+void printlog(pile *stockpiles,int mode,/*FILE *fp,*/int round,int deck,int nofplayers){
     int i;
-    //fprintf(fp,"########################\n"
-    //       "#                      #\n"
-    //       "# Welcome to One Card! #\n"
-    //       "#                      #\n"
-    //       "########################\n\n"
-    //       "---- Initial setup ----\n");
-    //fprintf(fp,"Number of rounds: %d\n",round);
-    //fprintf(fp,"Number of decks: %d\n",deck);
-    //fprintf(fp,"Number of players: %d\n\n",nofplayers);
-    //fprintf(fp,"Shuffling cards...\n");
-    //fprintf(fp,"Shuffle result: ");
     printf("########################\n"
-           "#                      #\n"
-           "# Welcome to One Card! #\n"
-           "#                      #\n"
-           "########################\n\n"
-           "---- Initial setup ----\n");
+        "#                      #\n"
+        "# Welcome to One Card! #\n"
+        "#                      #\n"
+        "########################\n\n"
+        "---- Initial setup ----\n");
     printf("Number of rounds: %d\n",round);
     printf("Number of decks: %d\n",deck);
     printf("Number of players: %d\n\n",nofplayers);
@@ -167,18 +140,16 @@ void printlog(pile *stockpiles,int mode,FILE *fp,int round,int deck,int nofplaye
     printf("Shuffle result: ");
     if (mode!=1){
         for (i=0;i<stockpiles->num;i++){
-            printcard(fp,stockpiles->allcard[i],1);
+            printcard(stockpiles->allcard[i],1);
         }
     }else {
         for (i=0;i<stockpiles->num;i++){
-            printcard(fp,stockpiles->allcard[i],0);
+            printcard(stockpiles->allcard[i],0);
         }
     }
     printf("\nDealing cards...\n\n\n");
-    //fprintf(fp,"\nDealing cards...\n\n\n");
 }
 
-// print the help
 void printhelp(){
     printf("-h|--help                print this help message\n");
     printf("--log filename           write the logs in filename (default: onecard.log)\n");
@@ -189,7 +160,6 @@ void printhelp(){
     printf("-a|--auto                run in demo mode\n\n");
 }
 
-// add card from discard pile to stock pile
 void addcard(pile *stockpiles,pile *discardpiles){
     int i=0;
     for (i=stockpiles->num;i<stockpiles->num+discardpiles->num;i++){
@@ -201,16 +171,14 @@ void addcard(pile *stockpiles,pile *discardpiles){
     discardpiles->num=0;
 }
 
-// in main mode prompt the user to play card
-card manplaycard(FILE *fp,player *theplayer,card *canplay,int *turn,int j,int num,pile *stockpiles, pile *discardpiles,int *test){
+card manplaycard(/*FILE *fp,*/player *theplayer,card *canplay,int *turn,int j,int num,pile *stockpiles, pile *discardpiles,int *test){
     int i,choice,valid=0;
     card thecard;
     printf("player%d, You now have\n",theplayer->rank+1);
     for (i=0;i<=num-1;i++){
-        printcard(fp,theplayer->inhand[i],2);
+        printcard(theplayer->inhand[i],2);
     }
-    //fprintf(fp,"\n");
-    if (j!=0){
+        if (j!=0){
         while (1){
             printf("\nchoose from 1 to %d, or enter 0 to jump the round:",num);
             if (scanf("%d",&choice)==1){};
@@ -224,8 +192,7 @@ card manplaycard(FILE *fp,player *theplayer,card *canplay,int *turn,int j,int nu
                 if(valid==1){
                     playcard(discardpiles,theplayer,thecard);
                     printf("player %d plays: ",theplayer->rank+1);
-                    //fprintf(fp,"player %d plays: ",theplayer->rank+1);
-                    printcard(fp,thecard,1);
+                    printcard(thecard,1);
                 }
             } else {
                 if (choice==0){
@@ -233,8 +200,7 @@ card manplaycard(FILE *fp,player *theplayer,card *canplay,int *turn,int j,int nu
                         if (*turn!=1){
                             thecard=drawcard(stockpiles,theplayer);
                             printf("player %d draws: ",theplayer->rank+1);
-                            //fprintf(fp,"player %d draws: ",theplayer->rank+1);
-                            printcard(fp,thecard,1);
+                            printcard(thecard,1);
                             *turn=1;
                         }
                         valid=1;
@@ -242,10 +208,9 @@ card manplaycard(FILE *fp,player *theplayer,card *canplay,int *turn,int j,int nu
                     } else {
                         if(*turn!=1){
                             printf("player %d draws: ",theplayer->rank+1);
-                            //fprintf(fp,"player %d draws: ",theplayer->rank+1);
                             for (i=0;i<=(*test)-1;i++){
                                 thecard=drawcard(stockpiles,theplayer); 
-                                printcard(fp,thecard,1); 
+                                printcard(thecard,1); 
                             }
                             *test=0;
                             *turn=1;
@@ -265,7 +230,6 @@ card manplaycard(FILE *fp,player *theplayer,card *canplay,int *turn,int j,int nu
     return thecard;
 }
 
-// sort the card
 void sortcard(card *inhand,int num){
     int i,j,rank;
     card tmp,min;

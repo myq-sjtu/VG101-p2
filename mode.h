@@ -3,6 +3,6 @@
 
 #include"game.h"
 
-void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode);
+void mode(int nofcard,int nofplayer,int nofdeck,int nofround,/*FILE *fp,*/int mode);
 
 #endif

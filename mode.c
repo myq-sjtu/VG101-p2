@@ -1,13 +1,9 @@
-// this c file is the whole function to control the entire game(several rounds)
 #include"mode.h"
 
-// the overall function to control playing
-void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
-    // initial piles
+void mode(int nofcard,int nofplayer,int nofdeck,int nofround,/*FILE *fp,*/int mode){
     pile stockpiles;
     pile discardpile;
     player players[nofplayer];
-    //dynamic array
     stockpiles.allcard=malloc((unsigned)(nofdeck*52)*sizeof(card));
     discardpile.allcard=malloc((unsigned)(nofdeck*52)*sizeof(card));
     stockpiles.num=0;
@@ -21,38 +17,30 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
         players[i].isman=0;
     }
     players[0].isman=1;
-    //generate stockpiles
     generate(nofdeck,&stockpiles);
-    //shuffle stockpiles
     shuffle(&stockpiles,nofdeck*52);
-    // print the template
-    printlog(&stockpiles,2,fp,nofround,nofdeck,nofplayer);
-    winner=initialturn(fp,players,nofplayer,&stockpiles,&discardpile);
+    printlog(&stockpiles,2,nofround,nofdeck,nofplayer);
+    winner=initialturn(players,nofplayer,&stockpiles,&discardpile);
     printf("---- Game start ----\n");
-    //fprintf(fp,"---- Game start ----\n");
     for (round=1;round<=nofround;round++){
         printf("round%d: start with player%d\n",round,winner+1);
-        //fprintf(fp,"round%d: start with player%d\n",round,winner+1);
         if (round!=1){
             if (mode!=1){
                 for (i=0;i<stockpiles.num;i++){
-                    printcard(fp,stockpiles.allcard[i],1);
+                    printcard(stockpiles.allcard[i],1);
                 }
-                } else {
+            } else {
                 for (i=0;i<stockpiles.num;i++){
-                    printcard(fp,stockpiles.allcard[i],0);
+                    printcard(stockpiles.allcard[i],0);
                 }
             }
             printf("\n");
-            //fprintf(fp,"\n");
         }
-        // play a round
-        winner=oneround(fp,&stockpiles,nofplayer,nofcard,&discardpile,winner,mode,players);
+        winner=oneround(&stockpiles,nofplayer,nofcard,&discardpile,winner,mode,players);
         generate(nofdeck,&stockpiles);
         shuffle(&stockpiles,nofdeck*52);
         discardpile.num=0;
     }
-    // display total scores
     printf("In total\n");
     int max=players[0].scores;
     for (i=0;i<=nofplayer-1;i++){
@@ -61,20 +49,15 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
             max=players[i].scores;
         }
     }
-    // determine the winner
     printf("the winner is: ");
-    //fprintf(fp,"the winner is: ");
     for (i=0;i<=nofplayer-1;i++){
         if (players[i].scores==max){
             printf("player %d  ",players[i].rank+1);
-            //fprintf(fp,"player %d  ",players[i].rank+1);
         }
     }
-    // free memory
     for (i=0;i<=nofplayer-1;i++){
         free((players[i]).inhand);
     }
     free(stockpiles.allcard);
     free(discardpile.allcard);
-    //fclose(fp);
 }

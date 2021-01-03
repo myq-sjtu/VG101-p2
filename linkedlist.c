@@ -1,7 +1,5 @@
-// this c file is all about the double circular linked list
 #include "linkedlist.h"
 
-// free the list
 void FreeList(node_t **head){
     node_t *tmp=NULL;
     node_t *pHead=*head;
@@ -13,7 +11,6 @@ void FreeList(node_t **head){
     free(pHead);
 }
 
-// insert a player in the list
 void InsertLastList(node_t **head,player *pl){
     node_t *tmp=*head;
     int i=1;
@@ -36,13 +33,11 @@ void InsertLastList(node_t **head,player *pl){
     }
 }
 
-// create new list
 node_t *Initialize(player *pl){
     node_t *head;
     head=(node_t*)calloc(1,sizeof(node_t));
     if(head==NULL){
-        //fprintf(stderr,"Failed to assign memory!\n");
-        exit(-1);
+                exit(-1);
     }
     head->next=NULL;
     head->front=NULL;

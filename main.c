@@ -1,16 +1,12 @@
-// all the structures are defined in card.h
 #include "mode.h"
 
 void getpara(int argc,char* argv[],int *players,int* cards, int* decks,int* rounds,int* modes,char *file,int* opentest);
 
-// main function
 int main(int argc,char* argv[]){
-    // initial parameters
-    int players=3,cards=3,rounds=2,decks=2,modes=1,opentest=0;
-    FILE *fp;
+        int players=3,cards=3,rounds=2,decks=3,modes=1,opentest=0;
+    /*FILE *fp*/;
 	char file[2000];
-    //reset seed
-    srand((unsigned)time(NULL));
+        srand((unsigned)time(NULL));
     getpara(argc,argv,&players,&cards,&decks,&rounds,&modes,file,&opentest);
     if (players*(cards+1)>=decks*52){
         printf("Won't be enough card, start again! Or add '-h' for help");
@@ -18,35 +14,30 @@ int main(int argc,char* argv[]){
             if(modes!=3){
                 if(opentest==1){
                     printf("%s",file);
-                    //fp=fopen(file,"w+");
-                    /*if (fp==NULL){
+                                        /*if (fp==NULL){
                         printf("no such file!");
                         exit(1);
                     }*/
-                    mode(cards,players,decks,rounds,fp,modes);
+                    mode(cards,players,decks,rounds,modes);
                 } else {
-                    //fp=fopen("onecard.log","w");
-                    /*if (fp==NULL){
+                                        /*if (fp==NULL){
                         printf("no such file!");
                         exit(1);
                     }*/
-                    mode(cards,players,decks,rounds,fp,modes);
+                    mode(cards,players,decks,rounds,modes);
                 }
             }   
         }
     return 0;
 }
 
-// this function is to get the parameters from the command line
 void getpara(int argc,char* argv[],int *players,int* cards, int* decks,int* rounds,int* modes,char *file,int* opentest){
-    char tmp[5][20];// to store the partial string if enter something like "--player-number=n"
-    int i,j,num=0,sum,k;
+    char tmp[5][20];    int i,j,num=0,sum,k;
     if ((argc==2) && ((!strcmp(argv[1],"-h") || (!strcmp(argv[1],"--help"))))){
         printhelp();
         *modes=3;
     } else {
-        // to get the parameters
-        if (argc>=2){
+                if (argc>=2){
             for (i=0;i<=argc-1;i++){
                 if (!strcmp(argv[i],"-d")){
                     sum=0;
@@ -83,8 +74,7 @@ void getpara(int argc,char* argv[],int *players,int* cards, int* decks,int* roun
                     strcpy(file,argv[i+1]);
                     *opentest=1;
                 }
-                // get parameters if enter in the second way
-				if (argv[i][0]=='-' && argv[i][1]=='-' && argv[i][2]!='l'){
+                				if (argv[i][0]=='-' && argv[i][1]=='-' && argv[i][2]!='l'){
 					for (j=0;(unsigned)j<strlen(argv[i]);j++){
 						if (argv[i][j]=='='){
 							strncpy(tmp[num],argv[i],(unsigned)j+1);
