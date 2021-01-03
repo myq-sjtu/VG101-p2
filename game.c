@@ -9,15 +9,15 @@ int initialturn(FILE *fp,player *players,int nofplayer,pile *stockpiles,pile *di
     int i,k=0;
     system("clear");
     printf("Determining the playing order...\n");
-    fprintf(fp,"Determining the playing order...");
+    //fprintf(fp,"Determining the playing order...");
     // everyone draw a card
     for (i=0;i<=nofplayer-1;i++){
         startcard[i]=drawcard(stockpiles,&(players[i]));
         printf("player %d: ",i+1);
-        fprintf(fp,"player %d: ",i+1);
+        //fprintf(fp,"player %d: ",i+1);
         printcard(fp,startcard[i],1);
         printf("\n");
-        fprintf(fp,"\n");
+        //fprintf(fp,"\n");
         playcard(discardpiles,&(players[i]),startcard[i]);
     }
     // get the smallest card
@@ -47,16 +47,16 @@ void initialcard(FILE *fp,player *players,pile *stockpiles,int nofplayer,int nof
             shuffle(stockpiles,stockpiles->num);
         }
         //printf("player %d: ",i+1);
-        //fprintf(fp,"player %d: ",i+1);
+        ////fprintf(fp,"player %d: ",i+1);
         for (j=0;j<=nofcard-1;j++){
             thecard=drawcard(stockpiles,&(players[i]));    
             //printcard(fp,thecard,1);
             if (j==nofcard-1){
                 //printf("\n");
-                //fprintf(fp,"\n");
+                ////fprintf(fp,"\n");
             } else {
                 //printf(", ");
-                //fprintf(fp,", ");
+                ////fprintf(fp,", ");
             }
         }
         // if the stock pile exhausted during drawing, add card from the discard pile 
@@ -89,7 +89,7 @@ card oneturn(int *extraturn,FILE *fp,pile *stockpiles,player *theplayer,card las
     if (theplayer->isman==1){
         sortcard(theplayer->inhand,theplayer->numofcard);
         //printf("player %d cards: ",theplayer->rank+1);
-        //fprintf(fp,"player %d cards: ",theplayer->rank+1);
+        ////fprintf(fp,"player %d cards: ",theplayer->rank+1);
         if (theplayer->numofcard==0){
             /*for (i=0;i<theplayer->numofcard;i++){
                 printcard(fp,theplayer->inhand[i],1);
@@ -98,16 +98,16 @@ card oneturn(int *extraturn,FILE *fp,pile *stockpiles,player *theplayer,card las
             printf("no card!");
         }
         printf("\n");
-        fprintf(fp,"\n");
+        //fprintf(fp,"\n");
     } else {
         sortcard(theplayer->inhand,theplayer->numofcard);
-        fprintf(fp,"\nplayer %d cards: ",theplayer->rank+1);
+        //fprintf(fp,"\nplayer %d cards: ",theplayer->rank+1);
         if (theplayer->numofcard!=0){
             for (i=0;i<theplayer->numofcard;i++){
                 printcard(fp,theplayer->inhand[i],0);
             }
         }
-        fprintf(fp,"\n");
+        //fprintf(fp,"\n");
         //check if the player can play a second card
         if (*extraturn==0){
             if (j!=0){
@@ -150,7 +150,7 @@ card oneturn(int *extraturn,FILE *fp,pile *stockpiles,player *theplayer,card las
         }
     if (stockpiles->num<=*test && discardpiles->num>=1){
         printf("Stock pile exhausted. Shuffling the discard pile and restore the stock pile\n");
-        fprintf(fp,"Stock pile exhausted. Shuffling the discard pile and restore the stock pile\n");
+        //fprintf(fp,"Stock pile exhausted. Shuffling the discard pile and restore the stock pile\n");
         addcard(stockpiles,discardpiles);
         shuffle(stockpiles,stockpiles->num);
     }
@@ -198,17 +198,17 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
         #endif
     }*/
     printf("the first card is ");
-    fprintf(fp,"\n\n\nthe first card is ");
+    //fprintf(fp,"\n\n\nthe first card is ");
     printcard(fp,thecard,1);
     printf("\n");
-    fprintf(fp,"\n");
+    //fprintf(fp,"\n");
     while (1){  
         // play one card
         thecard=oneturn(&extraturn,fp,stockpiles,thisplayer,thecard,discardpiles,&test,mod,&qtest,&jtest);
         // check if there is no card left(win)
         if (thisplayer->numofcard==0){
             printf("player%d win!\n",thisplayer->rank+1);
-            fprintf(fp,"player%d win!\n",thisplayer->rank+1);
+            //fprintf(fp,"player%d win!\n",thisplayer->rank+1);
             winner=thisplayer->rank;
             break;
         }
@@ -226,7 +226,7 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
             printf("the last card is ");
             printcard(fp,thecard,2);
             printf("\n");
-            fprintf(fp,"\n");
+            //fprintf(fp,"\n");
         }*/
         if(test!=0){
             if (mode==1) printf("it is under attack now!, the number of cards is %d\n",test);
@@ -279,13 +279,13 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
     tmp=playerlist;
     printf("\n\n\n---- Stats ----\n");
     printf("This round result: \n\n");
-    fprintf(fp,"---- Stats ----\n");
-    fprintf(fp,"This round result: \n\n");
+    //fprintf(fp,"---- Stats ----\n");
+    //fprintf(fp,"This round result: \n\n");
     // go through the list and print the scores
     do {
         tmp->pl->scores-=tmp->pl->numofcard;
         printf("player %d: %d, total: %d\n",tmp->pl->rank+1,-tmp->pl->numofcard,tmp->pl->scores);
-        fprintf(fp,"player %d: %d, total: %d\n",tmp->pl->rank+1,-tmp->pl->numofcard,tmp->pl->scores);
+        //fprintf(fp,"player %d: %d, total: %d\n",tmp->pl->rank+1,-tmp->pl->numofcard,tmp->pl->scores);
         while(tmp->pl->numofcard!=0){
             playcard(discardpiles,(tmp->pl),tmp->pl->inhand[0]);
         }
@@ -294,7 +294,7 @@ int oneround(FILE *fp,pile *stockpiles,int nofplayer,int nofcard,pile *discardpi
     }while (tmp!=playerlist);
     FreeList(&playerlist);
     printf("\n\n");
-    fprintf(fp,"\n\n");
+    //fprintf(fp,"\n\n");
     // replace system("pause");
     int ch;
     while((ch=getchar())!=EOF && ch!='\n'){};
@@ -327,10 +327,10 @@ card notattack(card* canplay,card lastcard,FILE* fp, player* theplayer, int mode
         } 
         thecard=drawcard(stockpiles,theplayer);
         printf("player %d draws: ",theplayer->rank+1);
-        fprintf(fp,"player %d draws: ",theplayer->rank+1);
+        //fprintf(fp,"player %d draws: ",theplayer->rank+1);
         printcard(fp,thecard,1);
         printf("\n");
-        fprintf(fp,"\n");
+        //fprintf(fp,"\n");
         thecard=lastcard;
     } else {
         // have card(s) to play
@@ -338,7 +338,7 @@ card notattack(card* canplay,card lastcard,FILE* fp, player* theplayer, int mode
             thecard=canplay[rand()%(*j)];
             playcard(discardpiles,theplayer,thecard);
             printf("player %d plays: ",theplayer->rank+1);
-            fprintf(fp,"player %d plays: ",theplayer->rank+1);
+            //fprintf(fp,"player %d plays: ",theplayer->rank+1);
             printcard(fp,thecard,1);
         } else {
             thecard=manplaycard(fp,theplayer,canplay,extraturn,*j,theplayer->numofcard,stockpiles,discardpiles,test);
@@ -353,30 +353,30 @@ card notattack(card* canplay,card lastcard,FILE* fp, player* theplayer, int mode
                 case 1:{
                     *test=2;
                     printf("attack begin\n");
-                    fprintf(fp,"attack begin\n");
+                    //fprintf(fp,"attack begin\n");
                     break;
                 }
                 case 2:{
                     *test=3;
                     printf("attack begin\n");
-                    fprintf(fp,"attack begin\n");
+                    //fprintf(fp,"attack begin\n");
                     break;
                 }
                 case 11:{
                     (*qtest)++;
                     printf("player%d play a queen, reverse\n",theplayer->rank+1);
-                    fprintf(fp,"player%d play a queen, reverse\n",theplayer->rank+1);
+                    //fprintf(fp,"player%d play a queen, reverse\n",theplayer->rank+1);
                     break;
                 }
                 case 10:{
                     (*jtest)++;
                     printf("player%d play a jack, jump\n",theplayer->rank+1);
-                    fprintf(fp,"player%d play a jack, jump\n",theplayer->rank+1);
+                    //fprintf(fp,"player%d play a jack, jump\n",theplayer->rank+1);
                     break;
                 }
                 default:{            
                     printf("\n");
-                    fprintf(fp,"\n");
+                    //fprintf(fp,"\n");
                     break;
                 }
             }
@@ -417,15 +417,15 @@ card underattack(card* canplay,card lastcard,FILE *fp,player* theplayer, int mod
             }
         }
         printf("player %d draws: ",theplayer->rank+1);
-        fprintf(fp,"player %d draws: ",theplayer->rank+1);
+        //fprintf(fp,"player %d draws: ",theplayer->rank+1);
         for (k=0;k<=(*test)-1;k++){
             thecard=drawcard(stockpiles,theplayer); 
             printcard(fp,thecard,1);
             if (k!=(*test)-1){
                 printf(", ");
-                fprintf(fp,", ");
+                //fprintf(fp,", ");
             } else {
-                fprintf(fp,"\n");
+                //fprintf(fp,"\n");
                 printf("\n");
             }
         }
@@ -437,7 +437,7 @@ card underattack(card* canplay,card lastcard,FILE *fp,player* theplayer, int mod
             thecard=canplay[rand()%(*j)];
             playcard(discardpiles,theplayer,thecard);
             printf("player %d plays ",theplayer->rank+1);
-            fprintf(fp,"player %d plays ",theplayer->rank+1);
+            //fprintf(fp,"player %d plays ",theplayer->rank+1);
             printcard(fp,thecard,1);
         } else {
             thecard=manplaycard(fp,theplayer,canplay,extraturn,*j,theplayer->numofcard,stockpiles,discardpiles,test);
@@ -447,31 +447,31 @@ card underattack(card* canplay,card lastcard,FILE *fp,player* theplayer, int mod
                 switch (thecard.number){
                     case 1:{
                         printf("add to next player\n");
-                        fprintf(fp,"add to next player\n");
+                        //fprintf(fp,"add to next player\n");
                         (*test)+=2;
                         break;
                     }
                     case 2:{
                         printf("add to next player\n");
-                        fprintf(fp,"add to next player\n");
+                        //fprintf(fp,"add to next player\n");
                         (*test)+=3;
                         break;
                     }
                     case 6:{
                         printf("cancel attack\n");
-                        fprintf(fp,"cancel attack\n");
+                        //fprintf(fp,"cancel attack\n");
                         (*test)=0;
                         break;
                     }
                     case 10:{
                         printf("jump attack\n");
-                        fprintf(fp,"jump attack\n");
+                        //fprintf(fp,"jump attack\n");
                         (*jtest)++;
                         break;
                     }
                     case 11:{
                         printf("reverse attack\n");
-                        fprintf(fp,"reverse attack\n");
+                        //fprintf(fp,"reverse attack\n");
                         (*qtest)++;
                         break;
                     }

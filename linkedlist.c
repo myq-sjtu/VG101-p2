@@ -41,7 +41,7 @@ node_t *Initialize(player *pl){
     node_t *head;
     head=(node_t*)calloc(1,sizeof(node_t));
     if(head==NULL){
-        fprintf(stderr,"Failed to assign memory!\n");
+        //fprintf(stderr,"Failed to assign memory!\n");
         exit(-1);
     }
     head->next=NULL;

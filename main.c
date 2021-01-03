@@ -18,14 +18,14 @@ int main(int argc,char* argv[]){
             if(modes!=3){
                 if(opentest==1){
                     printf("%s",file);
-                    fp=fopen(file,"w+");
+                    //fp=fopen(file,"w+");
                     /*if (fp==NULL){
                         printf("no such file!");
                         exit(1);
                     }*/
                     mode(cards,players,decks,rounds,fp,modes);
                 } else {
-                    fp=fopen("onecard.log","w");
+                    //fp=fopen("onecard.log","w");
                     /*if (fp==NULL){
                         printf("no such file!");
                         exit(1);

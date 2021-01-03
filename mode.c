@@ -29,10 +29,10 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
     printlog(&stockpiles,2,fp,nofround,nofdeck,nofplayer);
     winner=initialturn(fp,players,nofplayer,&stockpiles,&discardpile);
     printf("---- Game start ----\n");
-    fprintf(fp,"---- Game start ----\n");
+    //fprintf(fp,"---- Game start ----\n");
     for (round=1;round<=nofround;round++){
         printf("round%d: start with player%d\n",round,winner+1);
-        fprintf(fp,"round%d: start with player%d\n",round,winner+1);
+        //fprintf(fp,"round%d: start with player%d\n",round,winner+1);
         if (round!=1){
             if (mode!=1){
                 for (i=0;i<stockpiles.num;i++){
@@ -44,7 +44,7 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
                 }
             }
             printf("\n");
-            fprintf(fp,"\n");
+            //fprintf(fp,"\n");
         }
         // play a round
         winner=oneround(fp,&stockpiles,nofplayer,nofcard,&discardpile,winner,mode,players);
@@ -63,11 +63,11 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
     }
     // determine the winner
     printf("the winner is: ");
-    fprintf(fp,"the winner is: ");
+    //fprintf(fp,"the winner is: ");
     for (i=0;i<=nofplayer-1;i++){
         if (players[i].scores==max){
             printf("player %d  ",players[i].rank+1);
-            fprintf(fp,"player %d  ",players[i].rank+1);
+            //fprintf(fp,"player %d  ",players[i].rank+1);
         }
     }
     // free memory
@@ -76,5 +76,5 @@ void mode(int nofcard,int nofplayer,int nofdeck,int nofround,FILE *fp,int mode){
     }
     free(stockpiles.allcard);
     free(discardpile.allcard);
-    fclose(fp);
+    //fclose(fp);
 }
